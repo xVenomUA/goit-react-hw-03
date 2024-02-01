@@ -3,7 +3,6 @@ import { ContactList } from "./components/ContactList/ContactList";
 import dataContact from "../data.json";
 import { SearchBar } from "./components/SearchBar/SearchBar";
 import { ConctactForm } from "./components/ContactForm/ContactForm";
-import { nanoid } from "nanoid";
 
 
 export const App = () => {
@@ -23,16 +22,10 @@ export const App = () => {
 
   const listSearchContacts = data.filter((item) =>
     item.name.toLowerCase().includes(filterValue.toLowerCase())
-  );
+  ).sort((a,b) => a.name.localeCompare(b.name));
 
-  const handleAddContact = (values, actions) => {
-    const newContact = {
-      id: nanoid(),
-      name: values.name,
-      number: values.number,
-    };
+  const handleAddContact = (newContact) => {
     setData((prevContacts) => [...prevContacts, newContact]);
-    actions.resetForm();
   };
 
   const deleteContact = (id) => {

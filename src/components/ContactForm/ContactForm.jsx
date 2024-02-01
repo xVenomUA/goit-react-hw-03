@@ -1,4 +1,5 @@
 import css from "./ContactForm.module.css";
+import { nanoid } from "nanoid";
 import { Field, Formik, Form, ErrorMessage } from "formik";
 import { useId } from "react";
 import * as Yup from "yup";
@@ -20,10 +21,19 @@ const initialValues = {
 export const ConctactForm = ({ handleAddContact }) => {
   const idName = useId();
   const idNumber = useId();
+  const onSubmit = (values, actions) => {
+    const newContact = {
+      id: nanoid(),
+      name: values.name,
+      number: values.number,
+    };
+    actions.resetForm();
+    handleAddContact(newContact);
+  }
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={handleAddContact}
+      onSubmit={onSubmit}
       validationSchema={FeedbackSchema}
     >
       <Form className={css.form}>
